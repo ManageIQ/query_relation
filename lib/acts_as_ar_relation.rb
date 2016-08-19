@@ -1,6 +1,6 @@
 require 'forwardable'
 # allow active record dsl to call legacy find
-class ActsAsArQuery
+class ActsAsArRelation
   extend Forwardable
   include Enumerable
   attr_accessor :klass, :mode, :options

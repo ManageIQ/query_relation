@@ -1,4 +1,4 @@
-describe ActsAsArQuery do
+describe ActsAsArRelation do
   let(:model) { double("model") }
   let(:query) { described_class.new(model) }
 
