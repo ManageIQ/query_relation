@@ -139,15 +139,11 @@ class QueryRelation
   end
 
   def to_a
-    @results ||= klass.find(:all, legacy_options)
+    @results ||= call_query_method(:all)
   end
 
   def all
     self
-  end
-
-  def find(mode, options = {})
-    klass.find(mode, legacy_options.merge(options))
   end
 
   # count(:all) is very common
@@ -160,12 +156,12 @@ class QueryRelation
 
   # TODO: support arguments
   def first
-    defined?(@results) ? @results.first : klass.find(:first, legacy_options)
+    defined?(@results) ? @results.first : call_query_method(:first)
   end
 
   # TODO: support arguments
   def last
-    defined?(@results) ? @results.last : klass.find(:last, legacy_options)
+    defined?(@results) ? @results.last : call_query_method(:last)
   end
 
   def instances_are_derived?
@@ -178,18 +174,9 @@ class QueryRelation
     self.class.new(klass, options.dup)
   end
 
-  # NOTE: :references is not a legacy option
-  # but it is not used in our aaarm either
-  def legacy_options
-    {
-      :conditions => options[:where],
-      :include    => options[:includes],
-      :limit      => options[:limit],
-      :order      => options[:order],
-      :offset     => options[:offset],
-      :select     => options[:select],
-      :group      => options[:group],
-    }.delete_blanks
+  def call_query_method(mode)
+    query_method = options.fetch(:query_method, :search)
+    klass.send(query_method, mode, options.delete_blanks)
   end
 
   def append_hash_arg(symbol, *val)
