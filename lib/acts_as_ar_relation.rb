@@ -1,5 +1,13 @@
+require 'acts_as_ar_relation/version'
+
+require 'active_support/core_ext/array/wrap'
+require 'active_support/core_ext/enumerable'
+require 'active_support/core_ext/object/blank'
+
+require 'more_core_extensions/core_ext/hash/deletes'
+
 require 'forwardable'
-# allow active record dsl to call legacy find
+
 class ActsAsArRelation
   extend Forwardable
   include Enumerable
