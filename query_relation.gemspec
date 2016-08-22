@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'acts_as_ar_relation/version'
+require 'query_relation/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "acts_as_ar_relation"
-  spec.version       = ActsAsArRelation::VERSION
+  spec.name          = "query_relation"
+  spec.version       = QueryRelation::VERSION
   spec.authors       = ["Keenan Brock"]
   spec.email         = ["kbrock@redhat.com"]
 
   spec.summary       = %q{Provides an ActiveRecord::Relation-like DSL to non-SQL backends}
   spec.description   = %q{Provides an ActiveRecord::Relation-like DSL to non-SQL backends}
-  spec.homepage      = "https://github.com/ManageIQ/acts_as_ar_relation"
+  spec.homepage      = "https://github.com/ManageIQ/query_relation"
   spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

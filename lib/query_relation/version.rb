@@ -1,3 +1,3 @@
-class ActsAsArRelation
+class QueryRelation
   VERSION = "0.1.0"
 end

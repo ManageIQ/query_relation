@@ -1,4 +1,4 @@
-require 'acts_as_ar_relation/version'
+require 'query_relation/version'
 
 require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/enumerable'
@@ -8,7 +8,7 @@ require 'more_core_extensions/core_ext/hash/deletes'
 
 require 'forwardable'
 
-class ActsAsArRelation
+class QueryRelation
   extend Forwardable
   include Enumerable
   attr_accessor :klass, :mode, :options

@@ -1,4 +1,4 @@
-# ActsAsArRelation
+# QueryRelation
 
 Provides an ActiveRecord::Relation-like DSL to non-SQL backends
 
@@ -7,7 +7,7 @@ Provides an ActiveRecord::Relation-like DSL to non-SQL backends
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'acts_as_ar_relation'
+gem 'query_relation'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install acts_as_ar_relation
+    $ gem install query_relation
 
 ## Usage
 
@@ -30,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ManageIQ/acts_as_ar_relation. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ManageIQ/query_relation. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
