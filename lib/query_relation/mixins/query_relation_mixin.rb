@@ -12,7 +12,10 @@ module QueryRelationMixin
 
   delegate :first, :last,
            :select, :where,
-           :limit, :offset, :take,
+           :limit, :offset,
+           :size, :length, :take, :each, :empty?, :presence,
            :except, :unscope,
+           :includes, :references,
+           :find, :count,
            :order, :reorder, :to => :all
 end
