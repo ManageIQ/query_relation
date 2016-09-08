@@ -1,4 +1,5 @@
 require 'query_relation/version'
+require 'query_relation/queryable'
 
 require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/enumerable'
