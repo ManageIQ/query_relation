@@ -21,11 +21,7 @@ class QueryRelation
                    :reorder,
                    :first,
                    :last,
-                   :size,
-                   :length,
                    :take,
-                   :empty?,
-                   :presence,
                    :count
   end
 end

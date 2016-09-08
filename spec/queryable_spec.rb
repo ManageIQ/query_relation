@@ -88,24 +88,8 @@ describe QueryRelation::Queryable do
     expect(model.last).to eq(3)
   end
 
-  it ".size" do
-    expect(model.size).to eq(3)
-  end
-
-  it ".length" do
-    expect(model.length).to eq(3)
-  end
-
   it ".take" do
     expect(model.take(2)).to eq([1, 2])
-  end
-
-  it ".empty?" do
-    expect(model.empty?).to be false
-  end
-
-  it ".presence" do
-    expect(model.presence).to eq([1, 2, 3])
   end
 
   it ".count" do
