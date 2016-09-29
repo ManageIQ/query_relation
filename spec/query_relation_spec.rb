@@ -257,7 +257,7 @@ describe QueryRelation do
     end
 
     it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:all, :includes => [:a], :query_method => :some_method).and_return([1, 2, 3])
+      expect(model).to receive(:some_method).with(:all, :includes => [:a]).and_return([1, 2, 3])
 
       query = described_class.new(model, :query_method => :some_method)
       expect(query.includes(:a).to_a).to eq([1, 2, 3])
@@ -296,8 +296,8 @@ describe QueryRelation do
       expect(my_query.first).to eq(1)
     end
 
-    it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:first, :includes => [:a], :query_method => :some_method).and_return(5)
+    it "with :query_method option" do # move
+      expect(model).to receive(:some_method).with(:first, :includes => [:a]).and_return(5)
 
       query = described_class.new(model, :query_method => :some_method)
       expect(query.includes(:a).first).to eq(5)
@@ -318,8 +318,8 @@ describe QueryRelation do
       expect(my_query.last).to eq(3)
     end
 
-    it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:last, :includes => [:a], :query_method => :some_method).and_return(5)
+    it "with :query_method option" do # move
+      expect(model).to receive(:some_method).with(:last, :includes => [:a]).and_return(5)
 
       query = described_class.new(model, :query_method => :some_method)
       expect(query.includes(:a).last).to eq(5)
