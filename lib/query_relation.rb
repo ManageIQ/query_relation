@@ -12,7 +12,8 @@ require 'forwardable'
 class QueryRelation
   extend Forwardable
   include Enumerable
-  attr_accessor :klass, :mode, :options
+  attr_reader :klass
+  attr_accessor :options
 
   # - [ ] bind
   # - [ ] create_with
