@@ -42,9 +42,9 @@ class QueryRelation
   # - [X] where (partial)
   # - [ ] where.not
 
-  def initialize(model, opts = {})
+  def initialize(model, opts = nil)
     @klass   = model
-    @options = opts || {}
+    @options = opts ? opts.dup : {}
   end
 
   def where(*val)
@@ -173,7 +173,7 @@ class QueryRelation
   private
 
   def dup
-    self.class.new(klass, options.dup)
+    self.class.new(klass, options)
   end
 
   def call_query_method(mode)
