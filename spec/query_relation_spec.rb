@@ -1,7 +1,24 @@
 describe QueryRelation do
   let(:model) { double("model") }
-  let(:query) { described_class.new(model) }
+  let(:query) { described_class.new(model) { |*params| model.search(*params) } }
   let(:query_method) { :search }
+
+  describe "#initialize" do
+    it "supports block" do
+      expect(model).not_to receive(:search)
+      block = -> (mode, opts) { [1, 2, 3] if mode == :all && opts == {:includes => [:a]} }
+
+      query = described_class.new(model,&block)
+      expect(query.includes(:a).to_a).to eq([1, 2, 3])
+    end
+
+    it "defaults to klass.search" do
+      expect(model).to receive(:search).with(:all, :includes => [:a]).and_return([1, 2, 3])
+
+      query = described_class.new(model)
+      expect(query.includes(:a).to_a).to eq([1, 2, 3])
+    end
+  end
 
   describe "#except" do
     it "removes an expression" do
@@ -255,13 +272,6 @@ describe QueryRelation do
       my_query.to_a # executes/caches the results
       expect(my_query.to_a).to eq([1, 2, 3])
     end
-
-    it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:all, :includes => [:a], :query_method => :some_method).and_return([1, 2, 3])
-
-      query = described_class.new(model, :query_method => :some_method)
-      expect(query.includes(:a).to_a).to eq([1, 2, 3])
-    end
   end
 
   describe "#all" do
@@ -295,13 +305,6 @@ describe QueryRelation do
       my_query.to_a # executes/caches the results
       expect(my_query.first).to eq(1)
     end
-
-    it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:first, :includes => [:a], :query_method => :some_method).and_return(5)
-
-      query = described_class.new(model, :query_method => :some_method)
-      expect(query.includes(:a).first).to eq(5)
-    end
   end
 
   describe "#last" do
@@ -316,13 +319,6 @@ describe QueryRelation do
       my_query = query.includes(:a)
       my_query.to_a # executes/caches the results
       expect(my_query.last).to eq(3)
-    end
-
-    it "with :query_method option" do
-      expect(model).to receive(:some_method).with(:last, :includes => [:a], :query_method => :some_method).and_return(5)
-
-      query = described_class.new(model, :query_method => :some_method)
-      expect(query.includes(:a).last).to eq(5)
     end
   end
 
