@@ -11,6 +11,7 @@ describe QueryRelation::Queryable do
         when :last  then records.last
         end
       end
+      private_class_method :search
     end
   end
 

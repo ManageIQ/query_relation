@@ -5,7 +5,7 @@ class QueryRelation
     extend Forwardable
 
     def all(*args)
-      QueryRelation.new(self, *args) { |*params| search(*params) }
+      QueryRelation.new(self, *args)
     end
 
     def_delegators :all,

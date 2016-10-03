@@ -45,7 +45,7 @@ class QueryRelation
   def initialize(model, opts = nil, &block)
     @klass   = model
     @options = opts ? opts.dup : {}
-    @target = block || ->(*args) { klass.search(*args) }
+    @target = block || ->(*args) { klass.send(:search, *args) }
   end
 
   def where(*val)
