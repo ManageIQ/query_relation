@@ -42,9 +42,10 @@ class QueryRelation
   # - [X] where (partial)
   # - [ ] where.not
 
-  def initialize(model, opts = nil)
+  def initialize(model, opts = nil, &block)
     @klass   = model
     @options = opts ? opts.dup : {}
+    @target = block || ->(*args) { klass.search(*args) }
   end
 
   def where(*val)
@@ -173,12 +174,11 @@ class QueryRelation
   private
 
   def dup
-    self.class.new(klass, options)
+    self.class.new(klass, options, &@target)
   end
 
   def call_query_method(mode)
-    query_method = options.fetch(:query_method, :search)
-    klass.send(query_method, mode, options.delete_blanks)
+    @target.call(mode, options.delete_blanks)
   end
 
   def append_hash_arg(symbol, *val)
