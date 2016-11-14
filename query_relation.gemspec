@@ -6,8 +6,8 @@ require 'query_relation/version'
 Gem::Specification.new do |spec|
   spec.name          = "query_relation"
   spec.version       = QueryRelation::VERSION
-  spec.authors       = ["Keenan Brock"]
-  spec.email         = ["kbrock@redhat.com"]
+  spec.authors       = ["Keenan Brock", "Jason Frey"]
+  spec.email         = ["kbrock@redhat.com", "jfrey@redhat.com"]
 
   spec.summary       = %q{Provides an ActiveRecord::Relation-like DSL to non-SQL backends}
   spec.description   = %q{Provides an ActiveRecord::Relation-like DSL to non-SQL backends}
