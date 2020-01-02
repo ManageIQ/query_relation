@@ -171,6 +171,17 @@ class QueryRelation
     true
   end
 
+  # Default filter for a +collection+ based on various +options+ that are used
+  # by QueryRelation. Classes that include/extend this module can redefine it
+  # as they see fit.
+  #
+  def filter_collection(collection, options)
+    collection = collection.drop(options[:offset]) if options[:offset]
+    collection = collection.take(options[:limit]) if options[:limit]
+    collection = collection.select{ |hash| hash.slice(*options[:where].keys) == options[:where] } if options[:where]
+    collection
+  end
+
   private
 
   def dup
