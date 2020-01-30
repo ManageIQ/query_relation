@@ -26,12 +26,14 @@ class QueryRelation
   # - [ ] ~~having~~ - NO
   # - [X] includes (partial)
   # - [ ] joins
+  # - [X] left_joins
+  # - [X] left_outer_joins
   # - [X] limit
   # - [ ] lock
   # - [.] none
   # - [X] offset
   # - [X] order (partial)
-  # - [ ] preload
+  # - [x] preload
   # - [ ] readonly
   # - [X] references (partial)
   # - [X] reorder
@@ -78,6 +80,18 @@ class QueryRelation
 
   def references(*args)
     append_hash_array_arg :references, {}, *args
+  end
+
+  def preloads(*args)
+    append_hash_array_arg :preloads, {}, *args
+  end
+
+  def left_joins(*args)
+    append_hash_array_arg :left_joins, {}, *args
+  end
+
+  def left_outer_joins(*args)
+    append_hash_array_arg :left_outer_joins, {}, *args
   end
 
   def limit(val)
