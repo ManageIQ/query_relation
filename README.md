@@ -9,7 +9,6 @@ Provides an ActiveRecord::Relation-like DSL to non-SQL backends
 [![Code Climate](https://codeclimate.com/github/ManageIQ/query_relation/badges/gpa.svg)](https://codeclimate.com/github/ManageIQ/query_relation)
 [![Codacy](https://api.codacy.com/project/badge/grade/9ffce48ccb924020ae8f9e698048e9a4)](https://www.codacy.com/app/ManageIQ/query_relation)
 [![Coverage Status](https://coveralls.io/repos/ManageIQ/query_relation/badge.svg?branch=master&service=github)](https://coveralls.io/github/ManageIQ/query_relation?branch=master)
-[![Dependency Status](https://gemnasium.com/ManageIQ/query_relation.svg)](https://gemnasium.com/ManageIQ/query_relation)
 [![Security](https://hakiri.io/github/ManageIQ/query_relation/master.svg)](https://hakiri.io/github/ManageIQ/query_relation/master)
 
 ## Installation
