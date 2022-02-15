@@ -1,14 +1,13 @@
 # QueryRelation
 
-[![Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ManageIQ/query_relation?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Provides an ActiveRecord::Relation-like DSL to non-SQL backends
 
-[![Gem Version](https://badge.fury.io/rb/query_relation.svg)](http://badge.fury.io/query_relation)
-[![Build Status](https://travis-ci.com/ManageIQ/query_relation.svg)](https://travis-ci.com/ManageIQ/query_relation)
-[![Code Climate](https://codeclimate.com/github/ManageIQ/query_relation/badges/gpa.svg)](https://codeclimate.com/github/ManageIQ/query_relation)
-[![Codacy](https://api.codacy.com/project/badge/grade/9ffce48ccb924020ae8f9e698048e9a4)](https://www.codacy.com/app/ManageIQ/query_relation)
-[![Coverage Status](https://coveralls.io/repos/ManageIQ/query_relation/badge.svg?branch=master&service=github)](https://coveralls.io/github/ManageIQ/query_relation?branch=master)
+[![Gem Version](https://badge.fury.io/rb/query_relation.svg)](http://badge.fury.io/rb/query_relation)
+[![CI](https://github.com/ManageIQ/query_relation/actions/workflows/ci.yaml/badge.svg)](https://github.com/ManageIQ/query_relation/actions/workflows/ci.yaml)
+[![Code Climate](https://codeclimate.com/github/ManageIQ/query_relation.svg)](https://codeclimate.com/github/ManageIQ/query_relation)
+[![Test Coverage](https://codeclimate.com/github/ManageIQ/query_relation/badges/coverage.svg)](https://codeclimate.com/github/ManageIQ/query_relation/coverage)
+
+[![Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ManageIQ/query_relation?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Installation
 
