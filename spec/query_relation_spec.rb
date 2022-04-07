@@ -13,7 +13,7 @@ describe QueryRelation do
     end
 
     it "defaults to klass.search" do
-      expect(model).to receive(:search).with(:all, :includes => [:a]).and_return([1, 2, 3])
+      expect(model).to receive(:search).with(:all, {:includes => [:a]}).and_return([1, 2, 3])
 
       query = described_class.new(model)
       expect(query.includes(:a).to_a).to eq([1, 2, 3])
@@ -22,56 +22,56 @@ describe QueryRelation do
 
   describe "#except" do
     it "removes an expression" do
-      expect(model).to receive(query_method).with(:all, :limit => 5).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:limit => 5}).and_return([1, 2, 3, 4, 5])
       expect(query.where(:a => 1).order(:a).limit(5).except(:where, :order).to_a).to eq([1, 2, 3, 4, 5])
     end
   end
 
   describe "#includes" do
     it "accepts a single table" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]})
       query.includes(:a).to_a
     end
 
     it "accepts multiple tables" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a, :b]})
       query.includes(:a, :b).to_a
     end
 
     it "accepts a hash argument" do
-      expect(model).to receive(query_method).with(:all, :includes => {:a => {}})
+      expect(model).to receive(query_method).with(:all, {:includes => {:a => {}}})
       query.includes(:a => {}).to_a
     end
 
     it "chains singles" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a, :b]})
       query.includes(:a).includes(:b).to_a
     end
 
     it "chains arrays" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a, :b, :c, :d])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a, :b, :c, :d]})
       query.includes(:a, :b).includes(:c, :d).to_a
     end
 
     it "chains hash array" do
-      expect(model).to receive(query_method).with(:all, :includes => {:a => {}, :b => {}})
+      expect(model).to receive(query_method).with(:all, {:includes => {:a => {}, :b => {}}})
       query.includes(:a => {}).includes(:b).to_a
     end
 
     it "ignores nils" do
-      expect(model).to receive(query_method).with(:all, :includes => {:a => 5})
+      expect(model).to receive(query_method).with(:all, {:includes => {:a => 5}})
       query.includes(nil).includes(:a => 5).includes(nil).to_a
     end
 
     it "chains array hash" do
-      expect(model).to receive(query_method).with(:all, :includes => {:a => {}, :b => {}})
+      expect(model).to receive(query_method).with(:all, {:includes => {:a => {}, :b => {}}})
       query.includes(:a).includes(:b => {}).to_a
     end
   end
 
   describe "#limit" do
     it "limits" do
-      expect(model).to receive(query_method).with(:all, :limit => 5)
+      expect(model).to receive(query_method).with(:all, {:limit => 5})
       query.limit(5).to_a
     end
 
@@ -90,7 +90,7 @@ describe QueryRelation do
 
   describe "#offset" do
     it "offsets" do
-      expect(model).to receive(query_method).with(:all, :offset => 5)
+      expect(model).to receive(query_method).with(:all, {:offset => 5})
       query.offset(5).to_a
     end
 
@@ -107,32 +107,32 @@ describe QueryRelation do
 
   describe "#order" do
     it "orders" do
-      expect(model).to receive(query_method).with(:all, :order => [:a])
+      expect(model).to receive(query_method).with(:all, {:order => [:a]})
       query.order(:a).to_a
     end
 
     it "accepts multiple fields" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b]})
       query.order(:a, :b).to_a
     end
 
     it "chains singles" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b]})
       query.order(:a).order(:b).to_a
     end
 
     it "chains arrays" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b, :c, :d])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b, :c, :d]})
       query.order(:a, :b).order(:c, :d).to_a
     end
 
     it "chains hash array" do
-      expect(model).to receive(query_method).with(:all, :order => {:a => "DESC", :b => "ASC"})
+      expect(model).to receive(query_method).with(:all, {:order => {:a => "DESC", :b => "ASC"}})
       query.order(:a => "DESC").order(:b).to_a
     end
 
     it "chains hash array" do
-      expect(model).to receive(query_method).with(:all, :order => {:a => "ASC", :b => "DESC"})
+      expect(model).to receive(query_method).with(:all, {:order => {:a => "ASC", :b => "DESC"}})
       query.order(:a).order(:b => "DESC").to_a
     end
   end
@@ -144,29 +144,29 @@ describe QueryRelation do
 
   describe "#references" do
     it "chains array hash" do
-      expect(model).to receive(query_method).with(:all, :references => {:a => {}, :b => {}})
+      expect(model).to receive(query_method).with(:all, {:references => {:a => {}, :b => {}}})
       query.references(:a).references(:b => {}).to_a
     end
   end
 
   describe "#reorder" do
     it "reorders" do
-      expect(model).to receive(query_method).with(:all, :order => [:a])
+      expect(model).to receive(query_method).with(:all, {:order => [:a]})
       query.reorder(:a).to_a
     end
 
     it "accepts multiple fields" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b]})
       query.reorder(:a, :b).to_a
     end
 
     it "chains" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b]})
       query.reorder(:c, :d).reorder(:a, :b).to_a
     end
 
     it "overrides order" do
-      expect(model).to receive(query_method).with(:all, :order => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:order => [:a, :b]})
       query.order(:c).order(:d).reorder(:a, :b).to_a
     end
 
@@ -178,22 +178,22 @@ describe QueryRelation do
 
   describe "#select" do
     it "supports single field" do
-      expect(model).to receive(query_method).with(:all, :select => [:a])
+      expect(model).to receive(query_method).with(:all, {:select => [:a]})
       query.select(:a).to_a
     end
 
     it "accepts multiple fields" do
-      expect(model).to receive(query_method).with(:all, :select => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:select => [:a, :b]})
       query.select(:a, :b).to_a
     end
 
     it "chains fields" do
-      expect(model).to receive(query_method).with(:all, :select => [:c, :d, :a, :b])
+      expect(model).to receive(query_method).with(:all, {:select => [:c, :d, :a, :b]})
       query.select(:c, :d).select(:a, :b).to_a
     end
 
     it "ignores nils" do
-      expect(model).to receive(query_method).with(:all, :select => [:a, :b])
+      expect(model).to receive(query_method).with(:all, {:select => [:a, :b]})
       query.select(nil).select(:a, :b).select(nil).to_a
     end
 
@@ -204,49 +204,49 @@ describe QueryRelation do
 
   describe "#unscope" do
     it "removes an expression" do
-      expect(model).to receive(query_method).with(:all, :limit => 5)
+      expect(model).to receive(query_method).with(:all, {:limit => 5})
       query.where(:a => 1).order(:a).limit(5).unscope(:where, :order).to_a
     end
   end
 
   describe "#where" do
     it "supports hash" do
-      expect(model).to receive(query_method).with(:all, :where => {:a => 5})
+      expect(model).to receive(query_method).with(:all, {:where => {:a => 5}})
       query.where(:a => 5).to_a
     end
 
     it "accepts multiple fields" do
-      expect(model).to receive(query_method).with(:all, :where => {:a => 5, :b => 6})
+      expect(model).to receive(query_method).with(:all, {:where => {:a => 5, :b => 6}})
       query.where(:a => 5, :b => 6).to_a
     end
 
     it "chains fields" do
-      expect(model).to receive(query_method).with(:all, :where => {:a => 5, :b => 6})
+      expect(model).to receive(query_method).with(:all, {:where => {:a => 5, :b => 6}})
       query.where(:a => 5).where(:b => 6).to_a
     end
 
     it "merges hashes" do
-      expect(model).to receive(query_method).with(:all, :where => {:a => [5, 55], :b => [6, 66]})
+      expect(model).to receive(query_method).with(:all, {:where => {:a => [5, 55], :b => [6, 66]}})
       query.where(:a => 5, :b => 6).where(:a => 55, :b => 66).to_a
     end
 
     it "ignores nils" do
-      expect(model).to receive(query_method).with(:all, :where => {:a => 5})
+      expect(model).to receive(query_method).with(:all, {:where => {:a => 5}})
       query.where(nil).where(:a => 5).where(nil).to_a
     end
 
     it "supports string queries" do
-      expect(model).to receive(query_method).with(:all, :where => ["x = 5"])
+      expect(model).to receive(query_method).with(:all, {:where => ["x = 5"]})
       query.where("x = 5").to_a
     end
 
     it "supports multiple arguments" do
-      expect(model).to receive(query_method).with(:all, :where => ["x = ?", 5])
+      expect(model).to receive(query_method).with(:all, {:where => ["x = ?", 5]})
       query.where("x = ?", 5).to_a
     end
 
     it "supports array queries" do
-      expect(model).to receive(query_method).with(:all, :where => ["x = ?", 5])
+      expect(model).to receive(query_method).with(:all, {:where => ["x = ?", 5]})
       query.where(["x = ?", 5]).to_a
     end
 
@@ -261,13 +261,13 @@ describe QueryRelation do
 
   describe "#to_a" do
     it "calls model if not cached" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3])
       expect(query.includes(:a).to_a).to eq([1, 2, 3])
     end
 
     it "uses cached results" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3])
-      expect(model).not_to receive(query_method).with(:all, :includes => [:a])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3])
+      expect(model).not_to receive(query_method).with(:all, {:includes => [:a]})
       my_query = query.includes(:a)
       my_query.to_a # executes/caches the results
       expect(my_query.to_a).to eq([1, 2, 3])
@@ -282,25 +282,25 @@ describe QueryRelation do
 
   describe "#count" do
     it "accepts a single table" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3, 4, 5])
       expect(query.includes(:a).count).to eq(5)
     end
 
     it "works around count(:all)" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3, 4, 5])
       expect(query.includes(:a).count(:all)).to eq(5)
     end
   end
 
   describe "#first" do
     it "calls model if not cached" do
-      expect(model).to receive(query_method).with(:first, :includes => [:a]).and_return(5)
+      expect(model).to receive(query_method).with(:first, {:includes => [:a]}).and_return(5)
       expect(query.includes(:a).first).to eq(5)
     end
 
     it "uses cached results" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3])
-      expect(model).not_to receive(query_method).with(:first, :includes => [:a])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3])
+      expect(model).not_to receive(query_method).with(:first, {:includes => [:a]})
       my_query = query.includes(:a)
       my_query.to_a # executes/caches the results
       expect(my_query.first).to eq(1)
@@ -309,13 +309,13 @@ describe QueryRelation do
 
   describe "#last" do
     it "calls model if not cached" do
-      expect(model).to receive(query_method).with(:last, :includes => [:a]).and_return(5)
+      expect(model).to receive(query_method).with(:last, {:includes => [:a]}).and_return(5)
       expect(query.includes(:a).last).to eq(5)
     end
 
     it "uses cached results" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3])
-      expect(model).not_to receive(query_method).with(:last, :includes => [:a])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3])
+      expect(model).not_to receive(query_method).with(:last, {:includes => [:a]})
       my_query = query.includes(:a)
       my_query.to_a # executes/caches the results
       expect(my_query.last).to eq(3)
@@ -324,14 +324,14 @@ describe QueryRelation do
 
   describe "#length" do
     it "accepts a single table" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3, 4, 5])
       expect(query.includes(:a).length).to eq(5)
     end
   end
 
   describe "#size" do
     it "accepts a single table" do
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return([1, 2, 3, 4, 5])
       expect(query.includes(:a).size).to eq(5)
     end
   end
@@ -340,7 +340,7 @@ describe QueryRelation do
     it "calls to_a" do
       results = double("results")
       expect(results).to receive(:take).and_return([1, 2])
-      expect(model).to receive(query_method).with(:all, :includes => [:a]).and_return(results)
+      expect(model).to receive(query_method).with(:all, {:includes => [:a]}).and_return(results)
 
       expect(query.includes(:a).take).to eq([1, 2])
     end
@@ -438,7 +438,7 @@ describe QueryRelation do
 
   describe "#enumerable" do
     it "maps" do
-      expect(model).to receive(query_method).with(:all, :limit => 5).and_return([1, 2, 3, 4, 5])
+      expect(model).to receive(query_method).with(:all, {:limit => 5}).and_return([1, 2, 3, 4, 5])
       result = query.limit(5).map { |row| row }
       expect(result).to eq([1, 2, 3, 4, 5])
     end
