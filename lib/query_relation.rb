@@ -1,9 +1,6 @@
 require 'query_relation/version'
 require 'query_relation/queryable'
 
-require 'active_support'
-require 'active_support/core_ext/enumerable'
-
 require 'forwardable'
 
 class QueryRelation
@@ -152,10 +149,18 @@ class QueryRelation
     to_a.size
   end
 
-  def_delegators :to_a, :size, :length, :take, :each, :empty?, :presence
+  def_delegators :to_a, :size, :length, :take, :each, :empty?
+
+  def presence
+    to_a if present?
+  end
 
   def blank?
     to_a.nil? || to_a.empty?
+  end
+
+  def present?
+    !blank?
   end
 
   # TODO: support arguments
