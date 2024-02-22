@@ -2,7 +2,6 @@ require 'query_relation/version'
 require 'query_relation/queryable'
 
 require 'active_support'
-require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/enumerable'
 require 'active_support/core_ext/object/blank'
 
@@ -59,7 +58,7 @@ class QueryRelation
       elsif old_where.kind_of?(Hash) && val.kind_of?(Hash)
         val.each_pair do |key, value|
           old_where[key] = if old_where[key]
-                             Array.wrap(old_where[key]) + Array.wrap(value)
+                             Array(old_where[key]) + Array(value)
                            else
                              value
                            end
