@@ -3,7 +3,6 @@ require 'query_relation/queryable'
 
 require 'active_support'
 require 'active_support/core_ext/enumerable'
-require 'active_support/core_ext/object/blank'
 
 require 'forwardable'
 
@@ -51,9 +50,9 @@ class QueryRelation
     val = val.first if val.size == 1 && val.first.kind_of?(Hash)
     dup.tap do |r|
       old_where = r.options[:where]
-      if val.blank?
+      if val.nil? || val.empty?
         # nop
-      elsif old_where.blank?
+      elsif old_where.nil? || old_where.empty?
         r.options[:where] = val
       elsif old_where.kind_of?(Hash) && val.kind_of?(Hash)
         val.each_pair do |key, value|
@@ -155,6 +154,10 @@ class QueryRelation
 
   def_delegators :to_a, :size, :length, :take, :each, :empty?, :presence
 
+  def blank?
+    to_a.nil? || to_a.empty?
+  end
+
   # TODO: support arguments
   def first
     defined?(@results) ? @results.first : call_query_method(:first)
@@ -201,9 +204,9 @@ class QueryRelation
   # @param b [Array, Hash]
   # @param default default value for conversion to a hash. e.g.: {} or "ASC"
   def merge_hash_or_array(a, b, default = {})
-    if a.blank?
+    if a.nil? || a.empty?
       b
-    elsif b.blank?
+    elsif b.nil? || b.empty?
       a
     elsif a.kind_of?(Array) && b.kind_of?(Array)
       a + b
