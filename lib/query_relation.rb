@@ -6,8 +6,6 @@ require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/enumerable'
 require 'active_support/core_ext/object/blank'
 
-require 'more_core_extensions/core_ext/hash/deletes'
-
 require 'forwardable'
 
 class QueryRelation
@@ -179,7 +177,7 @@ class QueryRelation
   end
 
   def call_query_method(mode)
-    @target.call(mode, options.delete_blanks)
+    @target.call(mode, options.delete_if { |_n, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) })
   end
 
   def append_hash_arg(symbol, *val)

@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport"
-  spec.add_dependency "more_core_extensions"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "manageiq-style"
