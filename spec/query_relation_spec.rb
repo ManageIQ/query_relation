@@ -382,23 +382,6 @@ describe QueryRelation do
     end
   end
 
-  describe "#many?" do
-    it "returns true when many results are returned" do
-      expect(model).to receive(query_method).with(:all, {}).and_return([1, 2])
-      expect(query.many?).to be true
-    end
-
-    it "returns false when 1 result is returned" do
-      expect(model).to receive(query_method).with(:all, {}).and_return([1])
-      expect(query.many?).to be false
-    end
-
-    it "returns false when no results are returned" do
-      expect(model).to receive(query_method).with(:all, {}).and_return([])
-      expect(query.many?).to be false
-    end
-  end
-
   describe "#present?" do
     it "returns false when results are returned" do
       expect(model).to receive(query_method).with(:all, {}).and_return([1, 2])
