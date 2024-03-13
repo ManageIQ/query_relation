@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [0.1.2]
+### Fixed
+- `Model#pluck` now passes `:select` [#34](https://github.com/ManageIQ/query_relation/pull/34)
+
+### Added
+- Support for `Model.to_a` [#34](https://github.com/ManageIQ/query_relation/pull/34)
+
 ### Changed
 - Dropped dependencies: more_core_extensions and active_support. [#31](https://github.com/ManageIQ/query_relation/pull/31)
 
