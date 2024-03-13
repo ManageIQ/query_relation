@@ -104,9 +104,7 @@ class QueryRelation
       raise ArgumentError, "Need to support #{__callee__}(#{columns.class.name})"
     end
 
-    dup.tap do |r|
-      r.options[:order] = columns
-    end
+    assign_arg(:order, columns)
   end
 
   # @param val [Array<Symbol>, Symbol] attributes to remove from the query
