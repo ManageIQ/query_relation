@@ -22,6 +22,7 @@ class QueryRelation
                    :first,
                    :last,
                    :take,
+                   :to_a,
                    :pluck,
                    :count
   end

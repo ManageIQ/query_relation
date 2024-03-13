@@ -81,6 +81,10 @@ describe QueryRelation::Queryable do
     expect(relation.options).to eq(:order => [:b])
   end
 
+  it ".to_a" do
+    expect(model.to_a).to eq([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
+  end
+
   it ".first" do
     expect(model.first).to eq({:a => 1, :b => 11})
   end
@@ -93,11 +97,11 @@ describe QueryRelation::Queryable do
     expect(model.pluck(:a)).to eq([1, 2, 3])
   end
 
-  it ".take" do
+  it ".take (enumerable)" do
     expect(model.take(2)).to eq([{:a => 1, :b => 11}, {:a => 2, :b => 22}])
   end
 
-  it ".count" do
+  it ".count (enumerable)" do
     expect(model.count).to eq(3)
   end
 end
