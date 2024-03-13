@@ -275,6 +275,20 @@ describe QueryRelation do
     it "does not merge hashes and strings" do
       expect { query.where(:a => :c).where("b = 5") }.to raise_error(ArgumentError)
     end
+
+    it "leaves original alone" do
+      orig_query = query.where(:a => 5, :b => 6)
+      orig_query.where(:a => 55, :b => 66)
+
+      expect(query.where_values).to eq(nil)
+      expect(orig_query.where_values).to eq({:a => 5, :b => 6})
+    end
+  end
+
+  describe "#where_values" do
+    it { expect(query.where_values).to eq(nil) }
+    it { expect(query.where(:a => 5, :b => 6).where_values).to eq(:a => 5, :b => 6) }
+    it { expect(query.where(:a => 5, :b => 6).where(:a => 55, :b => 66).where_values).to eq(:a => [5, 55], :b => [6, 66]) }
   end
 
   describe "#to_a" do

@@ -52,6 +52,7 @@ class QueryRelation
       elsif old_where.nil? || old_where.empty?
         r.options[:where] = val
       elsif old_where.kind_of?(Hash) && val.kind_of?(Hash)
+        old_where = r.options[:where] = r.options[:where].dup
         val.each_pair do |key, value|
           old_where[key] = if old_where[key]
                              Array(old_where[key]) + Array(value)
@@ -64,6 +65,10 @@ class QueryRelation
               "Need to support #{__callee__}(#{val.class.name}) with existing #{old_where.class.name}"
       end
     end
+  end
+
+  def where_values
+    options[:where]
   end
 
   def includes(*args)
