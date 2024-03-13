@@ -4,7 +4,7 @@ describe QueryRelation::Queryable do
       extend QueryRelation::Queryable
 
       def self.search(mode, _options = {})
-        records = [1, 2, 3]
+        records = [{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}]
         case mode
         when :all   then records
         when :first then records.first
@@ -18,7 +18,7 @@ describe QueryRelation::Queryable do
   it ".all" do
     relation = model.all
     expect(relation).to be_kind_of(QueryRelation)
-    expect(relation.to_a).to eq([1, 2, 3])
+    expect(relation.to_a).to eq([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
   end
 
   it ".select" do
@@ -82,15 +82,15 @@ describe QueryRelation::Queryable do
   end
 
   it ".first" do
-    expect(model.first).to eq(1)
+    expect(model.first).to eq({:a => 1, :b => 11})
   end
 
   it ".last" do
-    expect(model.last).to eq(3)
+    expect(model.last).to eq({:a => 3, :b => 33})
   end
 
   it ".take" do
-    expect(model.take(2)).to eq([1, 2])
+    expect(model.take(2)).to eq([{:a => 1, :b => 11}, {:a => 2, :b => 22}])
   end
 
   it ".count" do
