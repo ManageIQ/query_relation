@@ -84,6 +84,11 @@ describe QueryRelation do
   describe "#limit_value" do
     it { expect(query.limit_value).to eq(nil) }
     it { expect(query.limit(5).limit_value).to eq(5) }
+
+    it "leaves originals alone" do
+      query.limit(5)
+      expect(query.limit_value).to eq(nil)
+    end
   end
 
   # - [.] none
@@ -103,6 +108,11 @@ describe QueryRelation do
   describe "#offset_value" do
     it { expect(query.offset_value).to eq(nil) }
     it { expect(query.offset(5).offset_value).to eq(5) }
+
+    it "leaves originals alone" do
+      query.offset(5)
+      expect(query.offset_value).to eq(nil)
+    end
   end
 
   describe "#order" do
@@ -140,6 +150,14 @@ describe QueryRelation do
   describe "#order_values" do
     it { expect(query.order_values).to eq([]) }
     it { expect(query.order(:a).order(:b).order_values).to eq([:a, :b]) }
+
+    it "leaves originals alone" do
+      orig_query = query.order(:a)
+      expect(query.order_values).to eq([])
+
+      orig_query.order(:b)
+      expect(orig_query.order_values).to eq([:a])
+    end
   end
 
   describe "#references" do
