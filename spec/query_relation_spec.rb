@@ -84,6 +84,11 @@ describe QueryRelation do
   describe "#limit_value" do
     it { expect(query.limit_value).to eq(nil) }
     it { expect(query.limit(5).limit_value).to eq(5) }
+
+    it "leaves originals alone" do
+      query.limit(5)
+      expect(query.limit_value).to eq(nil)
+    end
   end
 
   # - [.] none
@@ -103,6 +108,11 @@ describe QueryRelation do
   describe "#offset_value" do
     it { expect(query.offset_value).to eq(nil) }
     it { expect(query.offset(5).offset_value).to eq(5) }
+
+    it "leaves originals alone" do
+      query.offset(5)
+      expect(query.offset_value).to eq(nil)
+    end
   end
 
   describe "#order" do
@@ -140,6 +150,14 @@ describe QueryRelation do
   describe "#order_values" do
     it { expect(query.order_values).to eq([]) }
     it { expect(query.order(:a).order(:b).order_values).to eq([:a, :b]) }
+
+    it "leaves originals alone" do
+      orig_query = query.order(:a)
+      expect(query.order_values).to eq([])
+
+      orig_query.order(:b)
+      expect(orig_query.order_values).to eq([:a])
+    end
   end
 
   describe "#references" do
@@ -257,6 +275,20 @@ describe QueryRelation do
     it "does not merge hashes and strings" do
       expect { query.where(:a => :c).where("b = 5") }.to raise_error(ArgumentError)
     end
+
+    it "leaves original alone" do
+      orig_query = query.where(:a => 5, :b => 6)
+      orig_query.where(:a => 55, :b => 66)
+
+      expect(query.where_values).to eq(nil)
+      expect(orig_query.where_values).to eq({:a => 5, :b => 6})
+    end
+  end
+
+  describe "#where_values" do
+    it { expect(query.where_values).to eq(nil) }
+    it { expect(query.where(:a => 5, :b => 6).where_values).to eq(:a => 5, :b => 6) }
+    it { expect(query.where(:a => 5, :b => 6).where(:a => 55, :b => 66).where_values).to eq(:a => [5, 55], :b => [6, 66]) }
   end
 
   describe "#to_a" do
@@ -424,6 +456,32 @@ describe QueryRelation do
       expect(model).to receive(query_method).with(:all, {:limit => 5}).and_return([1, 2, 3, 4, 5])
       result = query.limit(5).map { |row| row }
       expect(result).to eq([1, 2, 3, 4, 5])
+    end
+  end
+
+  describe "#pluck" do
+    it "passes select (single)" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a]}).and_return([{:a => 1}, {:a => 2}, {:a => 3}])
+      result = query.pluck(:a)
+      expect(result).to eq([1, 2, 3])
+    end
+
+    it "passes select (multi)" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a, :b]}).and_return([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
+      result = query.pluck(:a, :b)
+      expect(result).to eq([[1, 11], [2, 22], [3, 33]])
+    end
+
+    it "passes where" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a], :where => {:a => 1}}).and_return([{:a => 1}])
+      result = query.where(:a => 1).pluck(:a)
+      expect(result).to eq([1])
+    end
+
+    it "supports no pluck parameters" do
+      expect(model).to receive(query_method).with(:all, {}).and_return([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
+      result = query.select(:a, :b).pluck
+      expect(result).to eq([[], [], []])
     end
   end
 end
