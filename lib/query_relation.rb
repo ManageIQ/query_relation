@@ -142,6 +142,20 @@ class QueryRelation
     append_hash_arg :select, *columns
   end
 
+  # @param columns [Array<Sting,Symbol>,String, Symbol] columns to bring back
+  def pluck(*columns)
+    columns = columns.flatten.compact
+
+    val = assign_arg(:select, columns).to_a
+
+    if columns.size == 1
+      column = columns.first
+      val.map { |row| row[column] }
+    else
+      val.map { |row| columns.map { |col| row[col] } }
+    end
+  end
+
   def to_a
     @results ||= call_query_method(:all)
   end

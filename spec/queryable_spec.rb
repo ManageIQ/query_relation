@@ -89,6 +89,10 @@ describe QueryRelation::Queryable do
     expect(model.last).to eq({:a => 3, :b => 33})
   end
 
+  it ".pluck" do
+    expect(model.pluck(:a)).to eq([1, 2, 3])
+  end
+
   it ".take" do
     expect(model.take(2)).to eq([{:a => 1, :b => 11}, {:a => 2, :b => 22}])
   end

@@ -426,4 +426,30 @@ describe QueryRelation do
       expect(result).to eq([1, 2, 3, 4, 5])
     end
   end
+
+  describe "#pluck" do
+    it "passes select (single)" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a]}).and_return([{:a => 1}, {:a => 2}, {:a => 3}])
+      result = query.pluck(:a)
+      expect(result).to eq([1, 2, 3])
+    end
+
+    it "passes select (multi)" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a, :b]}).and_return([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
+      result = query.pluck(:a, :b)
+      expect(result).to eq([[1, 11], [2, 22], [3, 33]])
+    end
+
+    it "passes where" do
+      expect(model).to receive(query_method).with(:all, {:select => [:a], :where => {:a => 1}}).and_return([{:a => 1}])
+      result = query.where(:a => 1).pluck(:a)
+      expect(result).to eq([1])
+    end
+
+    it "supports no pluck parameters" do
+      expect(model).to receive(query_method).with(:all, {}).and_return([{:a => 1, :b => 11}, {:a => 2, :b => 22}, {:a => 3, :b => 33}])
+      result = query.select(:a, :b).pluck
+      expect(result).to eq([[], [], []])
+    end
+  end
 end
