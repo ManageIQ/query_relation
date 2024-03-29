@@ -52,6 +52,7 @@ class QueryRelation
       elsif old_where.nil? || old_where.empty?
         r.options[:where] = val
       elsif old_where.kind_of?(Hash) && val.kind_of?(Hash)
+        old_where = r.options[:where] = r.options[:where].dup
         val.each_pair do |key, value|
           old_where[key] = if old_where[key]
                              Array(old_where[key]) + Array(value)
@@ -66,6 +67,10 @@ class QueryRelation
     end
   end
 
+  def where_values
+    options[:where]
+  end
+
   def includes(*args)
     append_hash_array_arg :includes, {}, *args
   end
@@ -74,6 +79,7 @@ class QueryRelation
     append_hash_array_arg :references, {}, *args
   end
 
+  # @param val [Integer] maximum number of rows to bring back
   def limit(val)
     assign_arg :limit, val
   end
@@ -82,29 +88,31 @@ class QueryRelation
     options[:limit]
   end
 
-  def order(*args)
-    append_hash_array_arg :order, "ASC", *args
+  # @param columns [Array<Symbol>, Symbol] columns for order
+  def order(*columns)
+    append_hash_array_arg :order, "ASC", *columns
   end
 
   def order_values
     options[:order] || []
   end
 
-  def group(*args)
-    append_hash_arg :group, *args
+  # @param columns [Array<Symbol>, Symbol] columns for order, replacing original
+  def group(*columns)
+    append_hash_arg :group, *columns
   end
 
-  def reorder(*val)
-    val = val.flatten.compact
-    if val.first.kind_of?(Hash)
-      raise ArgumentError, "Need to support #{__callee__}(#{val.class.name})"
+  # @param columns [Array<Symbol>, Symbol] columns for order, replacing original
+  def reorder(*columns)
+    columns = columns.flatten.compact
+    if columns.first.kind_of?(Hash)
+      raise ArgumentError, "Need to support #{__callee__}(#{columns.class.name})"
     end
 
-    dup.tap do |r|
-      r.options[:order] = val
-    end
+    assign_arg(:order, columns)
   end
 
+  # @param val [Array<Symbol>, Symbol] attributes to remove from the query
   def except(*val)
     dup.tap do |r|
       val.flatten.compact.each do |key|
@@ -113,6 +121,7 @@ class QueryRelation
     end
   end
 
+  # @param val [Array<Symbol>, Symbol] attributes to remove from the query
   # similar to except. difference being this persists across merges
   def unscope(*val)
     dup.tap do |r|
@@ -122,6 +131,7 @@ class QueryRelation
     end
   end
 
+  # @param val [Integer] offset
   def offset(val)
     assign_arg :offset, val
   end
@@ -130,9 +140,23 @@ class QueryRelation
     options[:offset]
   end
 
-  # @param val [Array<Sting,Symbol>,String, Symbol]
-  def select(*args)
-    append_hash_arg :select, *args
+  # @param columns [Array<Sting, Symbol>, String, Symbol] columns to bring back
+  def select(*columns)
+    append_hash_arg :select, *columns
+  end
+
+  # @param columns [Array<Sting,Symbol>,String, Symbol] columns to bring back
+  def pluck(*columns)
+    columns = columns.flatten.compact
+
+    val = assign_arg(:select, columns).to_a
+
+    if columns.size == 1
+      column = columns.first
+      val.map { |row| row[column] }
+    else
+      val.map { |row| columns.map { |col| row[col] } }
+    end
   end
 
   def to_a
