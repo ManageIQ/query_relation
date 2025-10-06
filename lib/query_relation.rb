@@ -12,20 +12,22 @@ class QueryRelation
   # - [ ] bind
   # - [ ] create_with
   # - [ ] distinct
-  # - [ ] eager_load
+  # - [X] eager_load (partial - leveraging references)
   # - [X] except ? - is this not defined in the interface?
   # - [ ] extending
   # - [ ] from
   # - [X] group
   # - [ ] ~~having~~ - NO
   # - [X] includes (partial)
-  # - [ ] joins
+  # - [X] joins (partial - references includes)
+  # - [ ] left_joins
+  # - [ ] left_outer_joins
   # - [X] limit
   # - [ ] lock
   # - [.] none
   # - [X] offset
   # - [X] order (partial)
-  # - [ ] preload
+  # - [X] preload (partial - leveraging includes)
   # - [ ] readonly
   # - [X] references (partial)
   # - [X] reorder
@@ -75,9 +77,22 @@ class QueryRelation
     append_hash_array_arg :includes, {}, *args
   end
 
+  def includes_values
+    options[:includes] || []
+  end
+
+  alias preload includes
+  alias preload_values includes_values
+
   def references(*args)
     append_hash_array_arg :references, {}, *args
   end
+
+  def references_values
+    options[:references] || []
+  end
+
+  alias joins references
 
   # @param val [Integer] maximum number of rows to bring back
   def limit(val)
@@ -111,6 +126,10 @@ class QueryRelation
 
     assign_arg(:order, columns)
   end
+
+  # similar to references, except takes typical hash and doesn't require includes entry
+  alias eager_load references
+  alias eager_load_values references_values
 
   # @param val [Array<Symbol>, Symbol] attributes to remove from the query
   def except(*val)
