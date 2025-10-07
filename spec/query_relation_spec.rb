@@ -20,6 +20,13 @@ describe QueryRelation do
     end
   end
 
+  describe "#eager_load" do
+    it "leverages references" do
+      expect(model).to receive(query_method).with(:all, {:references => [:a]})
+      query.eager_load(:a).to_a
+    end
+  end
+
   describe "#except" do
     it "removes an expression" do
       expect(model).to receive(query_method).with(:all, {:limit => 5}).and_return([1, 2, 3, 4, 5])
@@ -160,6 +167,16 @@ describe QueryRelation do
     end
   end
 
+  describe "#preload" do
+    it "leverages includes" do
+      expect(model).to receive(query_method).with(:all, {:includes => {:a => {}, :b => {}}})
+      x = query.preload(:a).preload(:b => {})
+      x.to_a
+    end
+  end
+
+  # NOTE: references don't take the hash. they take an array.
+  # we are going towards eager_load (which does take a hash), so leaving broken
   describe "#references" do
     it "chains array hash" do
       expect(model).to receive(query_method).with(:all, {:references => {:a => {}, :b => {}}})
