@@ -36,10 +36,10 @@ directly, but the more common way to get access to one is to mixin the
 `QueryRelation::Queryable` expects a method named `search` to be implemented by
 the mixee.  `search` should be written to take two parameters
 
-- `mode`: one of `first`, `last`, or `all`
+- `mode`: one of `:first`, `:last`, or `:all`
 - `options`: a Hash containing the choices that were made by the caller.  It
   will contain the keys `:where`, `:select`, `:limit`, `:offset`, `:order`,
-  `group`, `:includes`, and/or `:references`
+  `:group`, `:includes`, and/or `:references`
 
 The `search` method should be written to process this set of options and return
 an Array of the selection.  It can use the options and mode in any way it sees
